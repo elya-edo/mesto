@@ -1,4 +1,10 @@
+@import url("../vendor/normalize.css");
+@import url("../vendor/fonts/fonts.css");
+
 .page {
+  display: flex; /*Если контента будет меньше высоты страницы*/
+  min-height: 100vh; /*Если контента будет меньше высоты страницы*/
+  flex-direction: column;
   background-color: #000;
   font-family: "Inter", Arial, sans-serif;
   font-style: normal;
@@ -9,7 +15,13 @@
   margin: 0 auto;
 }
 
+.content {
+  flex-grow: 1; /*Если контента будет меньше высоты страницы*/
+}
+
 .header {
+  width: 100%;
+  margin: 0 auto;
   padding-top: 45px;
   max-height: 120px;
   display: flex;
@@ -24,7 +36,8 @@
 
 .header__line {
   opacity: 0.7;
-  outline: 0.5px solid #545454;
+  height: 0.1px;
+  background-color: #545454;
 }
 
 .profile {
@@ -41,17 +54,21 @@
 }
 
 .profile__add-button {
-  background-image: url("../images/plus.svg");
-  background-repeat: no-repeat;
-  background-position: center;
+  background: transparent url("../images/plus.svg") center no-repeat;
   background-size: 22px 22px;
-  background-color: #000000;
   border: 2px solid #ffffff;
+  border-radius: 2px;
   width: 150px;
   height: 50px;
   box-sizing: border-box;
   justify-self: end;
   align-self: center;
+}
+
+.profile__add-button:hover {
+  opacity: 0.6;
+  transition: opacity 0.2s ease-out;
+  cursor: pointer;
 }
 
 .profile__info {
@@ -82,17 +99,20 @@
 }
 
 .profile__edit-button {
-  background-image: url("../images/edit-button.svg");
-  background-repeat: no-repeat;
-  background-position: center;
+  background: transparent url("../images/edit-button.svg") center no-repeat;
   background-size: 10px 10px;
-  background-color: #000000;
   width: 24px;
   height: 24px;
   box-sizing: border-box;
   border: 1px solid #ffffff;
   align-self: center;
   margin-top: 17px; /*чтобы подровлять относительно направляющей текста*/
+}
+
+.profile__edit-button:hover {
+  opacity: 0.6;
+  transition: opacity 0.2s ease-out;
+  cursor: pointer;
 }
 
 .elements {
@@ -130,23 +150,144 @@
   line-height: 29px;
   color: #000000;
   margin: 0;
+  text-overflow: ellipsis; /*набор свойств реализ. многоточие при переполнении*/
+  white-space: nowrap; /*набор свойств реализ. многоточие при переполнении*/
+  overflow: hidden; /*набор свойств реализ. многоточие при переполнении*/
+  width: 185px;
 }
 
 .elements__like-button {
-  background-image: url("../images/like.svg");
+  background: transparent url("../images/like.svg") center no-repeat;
   width: 22px;
   height: 19px;
-  object-fit: contain;
   border: 0;
   padding: 0;
-  background-color: #ffffff;
   align-self: center;
+}
+
+.elements__like-button_active {
+  background-image: url("../images/like-active.svg");
+}
+
+.elements__like-button:hover {
+  opacity: 0.5;
+}
+
+.footer {
+  width: 100%;
+  padding: 66px 0 60px;
+  margin: 0 auto;
+}
+
+.footer__text {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  color: #545454;
+  margin: 0;
+}
+
+.popup {
+  display: none;
+  background-color: rgba(0, 0, 0, 0.5); /**/
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.popup_opened {
+  display: flex;
+}
+
+.popup__container {
+  position: relative; /* чтобы от него позиционировалась кнопка закрытия*/
+  margin-top: -318px;
+}
+
+.popup__form {
+  background-color: #ffffff;
+  /*width: 100vw;*/
+  width: 430px;
+  display: flex;
+  flex-direction: column;
+  padding: 34px 0 37px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+}
+
+.popup__title {
+  width: 358px;
+  margin: 0 auto 54px;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  height: 23px;
+}
+
+.popup__input {
+  width: 358px;
+  margin: 0 auto 30px;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  height: 27px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  padding-bottom: 8px;
+  text-overflow: ellipsis; /*набор свойств реализ. многоточие при переполнении*/
+  white-space: nowrap; /*набор свойств реализ. многоточие при переполнении*/
+  overflow: hidden; /*набор свойств реализ. многоточие при переполнении*/
+}
+
+.popup__save-button {
+  width: 358px;
+  margin: 18px auto 0;
+  height: 50px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  color: #ffffff;
+  background: #000000;
+  border: 0;
+  border-radius: 2px;
+}
+
+.popup__save-button:hover {
+  opacity: 0.8;
+  transition: opacity 0.2s ease-out;
+  cursor: pointer;
+}
+
+.popup__close-button {
+  background: transparent url("../images/Close-Icon.svg") center no-repeat;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  padding: 0;
+  background-size: 32px 32px;
+  position: absolute;
+  top: -40px;
+  right: -40px;
+}
+
+.popup__close-button:hover {
+  opacity: 0.6;
+  transition: opacity 0.2s ease-out;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 934px) {
   .header {
     width: calc(100% - 54px);
-    margin: 0 auto;
   }
 
   .profile {
@@ -161,6 +302,11 @@
     width: calc(100% - 114px);
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .footer {
+    width: calc(100% - 54px);
+    padding: 48px 0 36px;
   }
 }
 
@@ -243,6 +389,41 @@
     height: 18px;
     margin-top: 11px; /*чтобы подровлять относительно направляющей текста*/
   }
+  .popup__container {
+    margin-top: -468px;
+  }
+
+  .popup__form {
+    width: 282px;
+    padding: 25px 0;
+  }
+
+  .popup__title {
+    width: 238px;
+    margin: 0 auto 73px;
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .popup__input {
+    width: 238px;
+  }
+
+  .popup__save-button {
+    width: 238px;
+    margin: 15px auto 0;
+    height: 46px;
+    font-size: 14px;
+    line-height: 17px;
+  }
+
+  .popup__close-button {
+    width: 20px;
+    height: 20px;
+    background-size: 20px 20px;
+    top: -37px;
+    right: 0;
+  }
 }
 
 @media screen and (max-width: 425px) {
@@ -294,5 +475,14 @@
 
   .elements {
     width: calc(100% - 38px);
+  }
+
+  .footer {
+    width: calc(100% - 38px);
+  }
+
+  .footer__text {
+    font-size: 14px;
+    line-height: 17px;
   }
 }
