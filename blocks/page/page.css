@@ -1,0 +1,12 @@
+.page {
+  display: flex; /*Если контента будет меньше высоты страницы*/
+  min-height: 100vh; /*Если контента будет меньше высоты страницы*/
+  flex-direction: column;
+  background-color: #000;
+  font-family: "Inter", Arial, sans-serif;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased; /*сглаживание шрифтов*/
+  -moz-osx-font-smoothing: grayscale; /*сглаживание шрифтов*/
+  max-width: 880px;
+  margin: 0 auto;
+}
