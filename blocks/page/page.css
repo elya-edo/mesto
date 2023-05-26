@@ -8,5 +8,6 @@
   -webkit-font-smoothing: antialiased; /*сглаживание шрифтов*/
   -moz-osx-font-smoothing: grayscale; /*сглаживание шрифтов*/
   max-width: 880px;
+  min-width: 320px;
   margin: 0 auto;
 }

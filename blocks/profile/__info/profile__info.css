@@ -1,5 +1,4 @@
 .profile__info {
-  max-height: 73px;
   align-self: center;
   display: grid;
   grid-template-columns: 294px 24px;
@@ -9,7 +8,6 @@
 
 @media screen and (max-width: 768px) {
   .profile__info {
-    max-height: 54px;
     grid-template-columns: 1fr 18px;
     grid-template-rows: 26px 14px;
     gap: 14px 10px;
@@ -19,7 +17,6 @@
 
 @media screen and (max-width: 550px) {
   .profile__info {
-    max-height: 54px;
     grid-template-columns: 1fr 18px;
     grid-template-rows: 26px 14px;
     gap: 14px 10px;
