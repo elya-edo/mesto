@@ -15,17 +15,9 @@
   }
 }
 
-@media screen and (max-width: 550px) {
-  .profile__info {
-    grid-template-columns: 1fr 18px;
-    grid-template-rows: 26px 14px;
-    gap: 14px 10px;
-    justify-self: start;
-  }
-}
-
 @media screen and (max-width: 425px) {
   .profile__info {
     justify-self: center;
+    max-width: calc(100% - 38px);
   }
 }
