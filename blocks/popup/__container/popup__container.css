@@ -1,11 +1,5 @@
 .popup__container {
   position: relative; /* чтобы от него позиционировалась кнопка закрытия*/
-  margin: 195px auto 0;
+  margin: auto;
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
-}
-
-@media screen and (max-width: 550px) {
-  .popup__container {
-    margin-top: 124px;
-  }
 }

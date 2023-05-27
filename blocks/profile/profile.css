@@ -14,7 +14,6 @@
 
 @media screen and (max-width: 550px) {
   .profile {
-    grid-template-columns: 90px minmax(min-content, 336px) 1fr;
     gap: 15px;
   }
 }
