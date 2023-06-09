@@ -33,31 +33,34 @@ const initialCards = [
 
 // наполняю страницу элементами из начального массива
 initialCards.forEach(function (item)  {
-  createCard(item.name, item.link);
+  const initialCards = createCard(item.name, item.link);   // кладу в переменную результат функции
+  elements.prepend(initialCards);                    // отображаю на странице cозданные карточки
 });
-
 
 const buttonEditProfile = document.querySelector('.profile__edit-button'); // кнопка редактирования профиля
 const buttonAddProfile = document.querySelector('.profile__add-button'); // кнопка добавления карточек
-const ViewImage = document.querySelectorAll('.elements__image'); // кнопка просмотра картинки
-const popup = document.querySelectorAll('.popup'); // окна попапов
-const buttonСlosePopup = document.querySelectorAll('.popup__close-button'); // кнопки закрытия попапа
-const popupForm = document.querySelectorAll('.popup__form'); // формы
+// const viewImages = document.querySelectorAll('.elements__image'); // нажать на картинку для просмотра
+
+const popupEdit = document.querySelector('.popup_type_edit'); // попап редактирования профиля
+const popupAdd = document.querySelector('.popup_type_add'); // попап добавления карточек
+const popupImage = document.querySelector('.popup_type_image'); // попап попап просмотра картинки
+
+const buttonСlosePopups = document.querySelectorAll('.popup__close-button'); // кнопки закрытия попапа
+
+const formEdit = document.querySelector('#edit-form'); // форма редактирования
+const formAdd = document.querySelector('#add-form'); // форма добавления
+
 const inputNameProfile = document.querySelector('#input-nameProfile'); // поле ввода имени профиля
 const inputDescriptionProfile = document.querySelector('#input-descriptionProfile'); //поле ввода описания профиля
 const nameProfile = document.querySelector('.profile__name'); // имя профиля описание профиля
 const descriptionProfile = document.querySelector('.profile__description'); // описание профиля
 
 const titlePicturePopup = document.querySelector('.popup__picture-title'); // название карточки в попапе
-const titleElements = document.querySelectorAll('.elements__title'); // название карточки в верстке
-const PicturePopup = document.querySelector('.popup__picture'); // картинка карточки в попапе
+const picturePopup = document.querySelector('.popup__picture'); // картинка карточки в попапе
 
 const inputNameImage = document.querySelector('#input-nameImage'); // поле ввода названия картинки
 const inputLinkImage = document.querySelector('#input-linkImage'); // поле ввода ссылки на картинку
 
-
-const buttonLikeElement = document.querySelectorAll('.elements__like-button'); // кнопка лайка
-const buttonDeliteElement = document.querySelectorAll('.elements__delite-button'); // кнопка удаления
 
 
 //Функции
@@ -75,70 +78,67 @@ function createCard(name, link){
   // добавлю клону нужные свойства. В данном случае беру ссылку на картинку из ключа link и назв-е из name.
   cloneElement.querySelector('.elements__title').textContent = name;
   cloneElement.querySelector('.elements__image').src = link;
+  cloneElement.querySelector('.elements__image').alt = `${name}`;
 
-  // отображаю на странице - кладу клонированный элемент(cloneElement) с добавленными предыдущей строчке свойствами в контейнер (elements)
-  elements.prepend(cloneElement);
+  const buttonLikeElement = cloneElement.querySelector('.elements__like-button'); // кнопка лайка
+  const buttonDeliteElement = cloneElement.querySelector('.elements__delite-button'); // кнопка удаления
+  const viewImage = cloneElement.querySelector('.elements__image'); // нажать на картинку для просмотра
+
+  // поставить/снять лайк
+  buttonLikeElement.addEventListener('click', function () {
+    buttonLikeElement.classList.toggle('elements__like-button_active');
+  });
+
+  // удаление карточки
+  buttonDeliteElement.addEventListener('click', function () {
+    const cardItem = buttonDeliteElement.closest('.elements__element'); // метод closest возвращает ближайший родительский элемент с переданным селектором
+    cardItem.remove();
+  });
+
+  //открытие попапа картинки
+    viewImage.addEventListener('click', function () {
+    openPopup(popupImage);
+    // console.log(titlePicturePopup);
+    titlePicturePopup.textContent = name;  // заполняю данными из карточки
+    picturePopup.src = link;  // заполняю данными из карточки
+    picturePopup.alt = `${name}`;
+  });
+
+  return cloneElement
 }
 
 
 
+
+//универсальное закрытие всех попапов - обработчики крестиков
+buttonСlosePopups.forEach((button) => {
+  const popup = button.closest('.popup');     // находим 1 раз ближайший к крестику попап
+  button.addEventListener('click', () => closePopup(popup)); // уст обработчик закрытия на крестик
+});
+
+
 //для попапа редактирования профиля
 buttonEditProfile.addEventListener('click', function () {
-  openPopup(popup[0]);
+  openPopup(popupEdit);
   inputNameProfile.value = nameProfile.textContent;              // заполняю форму при открытии данными из профиля
   inputDescriptionProfile.value = descriptionProfile.textContent;//заполняю форму при открытии данными из профиля
 });
-buttonСlosePopup[0].addEventListener('click', function () {
-  closePopup(popup[0]);
-});
-popupForm[0].addEventListener('submit', function (evt) {
+formEdit.addEventListener('submit', function (evt) {
   evt.preventDefault();
   nameProfile.textContent = inputNameProfile.value;
   descriptionProfile.textContent = inputDescriptionProfile.value;
-  closePopup(popup[0]);
+  closePopup(popupEdit);
 });
 
 
 //для попапа добавления карточек
 buttonAddProfile.addEventListener('click', function () {
-  openPopup(popup[1]);
+  openPopup(popupAdd);
 });
-buttonСlosePopup[1].addEventListener('click', function () {
-  closePopup(popup[1]);
-});
-popupForm[1].addEventListener('submit', function (evt) {
+formAdd.addEventListener('submit', function (evt) {
   evt.preventDefault();
-   createCard(inputNameImage.value, inputLinkImage.value);
-   closePopup(popup[1]);
-});
-
-
-//для попапа картинки
-for (let i = 0; i < ViewImage.length; i++) {      // использую цикл for тк нужен индекс текущего элемента
-  ViewImage[i].addEventListener('click', function () {
-    openPopup(popup[2]);
-    titlePicturePopup.textContent = titleElements[i].textContent  // заполняю данными из карточки
-    PicturePopup.src = ViewImage[i].src  // заполняю данными из карточки
-  });
-}
-buttonСlosePopup[2].addEventListener('click', function () {
-  closePopup(popup[2]);
-});
-
-
-
-
-// поставить/снять лайк
-buttonLikeElement.forEach(function (item)  {
-  item.addEventListener('click', function () {
-    item.classList.toggle('elements__like-button_active')
-  });
-});
-
-// удаление карточки
-buttonDeliteElement.forEach(function (item)  {
-  item.addEventListener('click', function () {
-    const cardItem = item.closest('.elements__element'); // метод closest возвращает ближайший родительский элемент с переданным селектором
-    cardItem.remove();
-  });
+   newCards = createCard(inputNameImage.value, inputLinkImage.value);  // кладу в переменную результат функции
+   elements.prepend(newCards);      // отображаю на странице cозданные карточки
+   closePopup(popupAdd);
+   evt.target.reset()               // очищаю форму
 });

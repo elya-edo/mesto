@@ -82,9 +82,9 @@
       <p class="footer__text">&copy; 2020 Mesto Russia</p>
     </footer>
 
-    <div class="popup">   <!--[0]-->
+    <div class="popup popup_type_edit">
       <div class="popup__container">
-        <form class="popup__form" name="edit-form">
+        <form class="popup__form" id="edit-form" name="edit-form">
           <h3 class="popup__title">Редактировать профиль</h3>
           <input class="popup__input" id="input-nameProfile" type="text" placeholder="Имя" name="name-profile" required>
           <input class="popup__input" id="input-descriptionProfile" type="text" placeholder="О себе" name="description-profile" required>
@@ -94,9 +94,9 @@
       </div>
     </div>
 
-    <div class="popup">   <!--[1]-->
+    <div class="popup popup_type_add">
       <div class="popup__container">
-        <form class="popup__form" name="add-form">
+        <form class="popup__form" id="add-form" name="add-form">
           <h3 class="popup__title">Новое место</h3>
           <input class="popup__input" id="input-nameImage" type="text" placeholder="Название" name="name-place" required>
           <input class="popup__input" id="input-linkImage" type="text" placeholder="Ссылка на картинку" name="link-picture" required>
@@ -106,7 +106,7 @@
       </div>
     </div>
 
-    <div class="popup popup_image">   <!--[2]-->
+    <div class="popup popup_type_image">
       <div class="popup__container popup__container_image">
         <img class="popup__picture" src="./images/karachayevsk.jpg" alt="Изображение места.">
         <h2 class="popup__picture-title"></h2>
