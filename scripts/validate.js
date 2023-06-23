@@ -8,8 +8,7 @@ const classNames = {
   errorId: '-error'
 }
 
-
-// Функция, которая добавляет класс с ошибкой
+// Функция, которая добавляет ошибки и стили невалидных полей
 const showInputError = (formElement, inputElement, errorMessage, classNames) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}${classNames.errorId}`); // элемент ошибки
   inputElement.classList.add(classNames.inputErrorClass); // доб стиль невалидного поля
@@ -17,13 +16,20 @@ const showInputError = (formElement, inputElement, errorMessage, classNames) => 
   errorElement.classList.add(classNames.errorClass);
 };
 
-// Функция, которая удаляет класс с ошибкой
+// Функция, которая очищает поле от ошибкок
 const hideInputError = (formElement, inputElement, classNames) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}${classNames.errorId}`); // элемент ошибки
   inputElement.classList.remove(classNames.inputErrorClass); // убираю стиль невалидного поля
   errorElement.classList.remove(classNames.errorClass);
   errorElement.textContent = '';
 };
+
+// Функция проходится по всем полям в форме чтобы спрятать на них ошибки
+function hideInputErrorAll (formElement, inputList, classNames) {
+  inputList.forEach(function (item) {
+    hideInputError(formElement, item, classNames);
+  });
+}
 
 // Функция, которая проверяет валидность поля
 const isValid = (formElement, inputElement, classNames) => {
@@ -48,11 +54,12 @@ const hasInvalidInput = (inputList, classNames) => {    // принимает м
 const toggleButtonState = (inputList, buttonElement, classNames) => { // принимает массив полей  и кнопку, кот менять
   if (hasInvalidInput(inputList, classNames)) { // Если есть хотя бы один невалидный инпут
     buttonElement.classList.add(classNames.inactiveButtonClass);  // сделай кнопку неактивной
+    buttonElement.setAttribute('disabled', true);
   } else {
     buttonElement.classList.remove(classNames.inactiveButtonClass);  // иначе сделай кнопку активной
+    buttonElement.removeAttribute('disabled');
   }
 };
-
 
 // функция кот доб слушатель событий всем полям ввода внутри формы
 const setEventListeners = (formElement, classNames) => {
