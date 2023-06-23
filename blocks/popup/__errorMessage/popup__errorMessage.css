@@ -1,0 +1,18 @@
+.popup__errorMessage { /* сообщение с ошибкой*/
+  color: #fff;
+  font-size: 12px;
+  line-height: 12px;
+  width: 358px;
+  margin: 5px auto 0px;
+  min-height: 25px;
+}
+
+.popup__errorMessage_active {
+  color: #F00;
+}
+
+@media screen and (max-width: 550px) {
+  .popup__errorMessage {
+    width: 238px;
+  }
+}

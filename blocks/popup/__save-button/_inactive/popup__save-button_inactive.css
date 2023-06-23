@@ -1,0 +1,5 @@
+.popup__save-button_inactive { /* стиль неактивной кнопки */
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: rgba(0, 0, 0, 0.2);
+}
