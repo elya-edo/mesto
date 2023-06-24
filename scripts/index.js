@@ -31,6 +31,8 @@ const arrayInputformAdds = [inputNameImage, inputLinkImage]; // массив п�
 
 const popups = Array.from(document.querySelectorAll(".popup"));
 
+const buttonSubmitAddCard = document.querySelector('#submit-add-button'); // кнопка отправки формы добавления карточек
+
 const initialCards = [
   {
     name: "Архыз",
@@ -167,4 +169,5 @@ formAdd.addEventListener("submit", function (evt) {
   renderCard(newCard); // отображаю на странице cозданные карточки
   closePopup(popupAdd);
   evt.target.reset(); // очищаю форму
+  toggleButtonState(arrayInputformAdds, buttonSubmitAddCard, classNames);
 });
