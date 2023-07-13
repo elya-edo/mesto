@@ -8,8 +8,10 @@ const buttonAddProfile = document.querySelector(".profile__add-button"); // кн
 const popupEdit = document.querySelector(".popup_type_edit"); // попап редактирования профиля
 const popupAdd = document.querySelector(".popup_type_add"); // попап добавления карточек
 const buttonСlosePopups = Array.from(document.querySelectorAll(".popup__close-button")); // кнопки закрытия попапа
-const formEdit = document.querySelector("#edit-form"); // форма редактирования
-const formAdd = document.querySelector("#add-form"); // форма добавления
+
+//любую форму можно сразу получить из document.forms по уникальному атрибуту name, который указываются в тегах form
+const formEdit = document.forms["edit-form"]; // форма редактирования
+const formAdd = document.forms["add-form"]; // форма добавления
 const inputNameProfile = document.querySelector("#input-nameProfile"); // поле ввода имени профиля
 const inputDescriptionProfile = document.querySelector("#input-descriptionProfile"); //поле ввода описания профиля
 const nameProfile = document.querySelector(".profile__name"); // имя профиля описание профиля
@@ -56,20 +58,26 @@ const classNames = {
 
 /* Объявления функций */
 
-//функция добавления карточек в DOM
+// функция создание карточек
+function createCard(item) {
+  const card = new Card(item, "#element-item-template"); // Созд экземпляр карточки арг (объект и селектор)
+  return card.generateCard();  // Создаём карточку и возвращаем наружу
+}
+
+// функция добавления карточек в DOM
 function renderCard(Card) {
   cardsContainer.prepend(Card);
 }
 
 /* Основной код */
 
+new FormValidator(classNames, formEdit).enableValidation();
+new FormValidator(classNames, formAdd).enableValidation();
+
 // наполняю страницу элементами из начального массива
 initialCards.forEach(function (item) {
-  const card = new Card(item, "#element-item-template"); // Созд экземпляр карточки арг (объект и селектор)
-  const cardElement = card.generateCard();  // Создаём карточку и возвращаем наружу
-
+  const cardElement = createCard(item);
   renderCard(cardElement);   // Добавляем в DOM
-
 });
 
 //универсальное закрытие всех попапов - обработчики крестиков
@@ -88,8 +96,6 @@ buttonEditProfile.addEventListener("click", function () {
   openPopup(popupEdit);
   inputNameProfile.value = nameProfile.textContent; // заполняю форму при открытии данными из профиля
   inputDescriptionProfile.value = descriptionProfile.textContent; //заполняю форму при открытии данными из профиля
-  const validatorFormEdit = new FormValidator(classNames, formEdit);
-  validatorFormEdit.enableValidation();
 });
 formEdit.addEventListener("submit", function (evt) {
   evt.preventDefault();
@@ -102,19 +108,15 @@ formEdit.addEventListener("submit", function (evt) {
 buttonAddProfile.addEventListener("click", function () {
   openPopup(popupAdd);
   formAdd.reset();
-  const validatorFormformAdd = new FormValidator(classNames, formAdd);
-  validatorFormformAdd.enableValidation();
 });
 formAdd.addEventListener("submit", function (evt) {
   evt.preventDefault();
 
-  const newCards = [];
+  const newCards = {};
   newCards.name = inputNameImage.value;
   newCards.link = inputLinkImage.value;
 
-  const newCard = new Card(newCards, "#element-item-template");
-  const newCardElement = newCard.generateCard();
-
+  const newCardElement = createCard(newCards);
   renderCard(newCardElement); // отображаю на странице cозданные карточки
 
   closePopup(popupAdd);

@@ -25,29 +25,21 @@ export class FormValidator {
 
   // метод добавляет ошибки и стили невалидных полей
   _showInputError(inputElement, errorMessage) {
-    const errorElement = this._formElement.querySelector(`.${inputElement.id}${this._classNames.errorId}`); // элемент ошибки
     inputElement.classList.add(this._classNames.inputErrorClass); // доб стиль невалидного поля
-    errorElement.textContent = errorMessage;
-    errorElement.classList.add(this._classNames.errorClass);
+    this._errorElement.textContent = errorMessage;
+    this._errorElement.classList.add(this._classNames.errorClass);
   };
 
   // метод очищает поле от ошибкок
   _hideInputError(inputElement) {
-    const errorElement = this._formElement.querySelector(`.${inputElement.id}${this._classNames.errorId}`); // элемент ошибки
     inputElement.classList.remove(this._classNames.inputErrorClass); // убираю стиль невалидного поля
-    errorElement.classList.remove(this._classNames.errorClass);
-    errorElement.textContent = '';
+    this._errorElement.classList.remove(this._classNames.errorClass);
+    this._errorElement.textContent = '';
   };
-
-  // метод проходится по всем полям в форме чтобы спрятать на них ошибки. Вызывается в index.js
-  _hideInputErrorAll() {
-    this._inputList.forEach(function (inputElement) {
-      hideInputError(inputElement);
-    });
-  }
 
   // метод проверяет валидность поля
   _isValid(inputElement) {
+    this._errorElement = this._formElement.querySelector(`.${inputElement.id}${this._classNames.errorId}`); // элемент ошибки
     if (!inputElement.validity.valid) {
       // Если поле не проходит валидацию, покажем ошибку
       this._showInputError(inputElement, inputElement.validationMessage);
