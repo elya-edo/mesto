@@ -1,14 +1,13 @@
 import { openPopup } from './methodsPopup.js';
+const popupTypeImage = document.querySelector(".popup_type_image");
+const popupPictureTitle = document.querySelector(".popup__picture-title");
+const popupPicture = document.querySelector(".popup__picture");
 
 export class Card {
   constructor(initialCards, templateSelector) {
     this._name = initialCards.name;
     this._link = initialCards.link;
     this._templateSelector = templateSelector; // записали селектор в приватное поле
-
-    this._popupTypeImage = document.querySelector(".popup_type_image");
-    this._popupPictureTitle = document.querySelector(".popup__picture-title");
-    this._popupPicture = document.querySelector(".popup__picture");
   }
 
   // метод возвращает разметку новой карточки, перед размещением на страницу.
@@ -68,9 +67,9 @@ export class Card {
 
   //открытие попапа картинки
   _openPopupImage() {
-    openPopup(this._popupTypeImage);
-    this._popupPictureTitle.textContent = this._name; // заполняю данными из карточки
-    this._popupPicture.src = this._link; // заполняю данными из карточки
-    this._popupPicture.alt = `${this._name}`;
+    openPopup(popupTypeImage);
+    popupPictureTitle.textContent = this._name; // заполняю данными из карточки
+    popupPicture.src = this._link; // заполняю данными из карточки
+    popupPicture.alt = `${this._name}`;
   }
 }

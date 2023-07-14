@@ -9,7 +9,7 @@ export class FormValidator {
 
   // метод запустит валидацию:
   enableValidation() {
-    this._toggleButtonState(); // вызовем ф-ю перекл кнопки, чтобы не ждать ввода данных
+    this.toggleButtonState(); // вызовем ф-ю перекл кнопки, чтобы не ждать ввода данных
     this._setEventListeners();
   };
 
@@ -18,7 +18,7 @@ export class FormValidator {
     this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {  // каждому полю добавим обработчик события input
         this._isValid(inputElement);  // вызовем isValid
-        this._toggleButtonState(); // вызовем ф-ю переключения кнопки
+        this.toggleButtonState(); // вызовем ф-ю переключения кнопки
       });
     });
   };
@@ -58,7 +58,7 @@ export class FormValidator {
   };
 
   // метод отключает и включает кнопку сохранить
-  _toggleButtonState() {
+  toggleButtonState() {
     if (this._hasInvalidInput()) { // Если есть хотя бы один невалидный инпут
       this._buttonElement.classList.add(this._classNames.inactiveButtonClass);  // сделай кнопку неактивной
       this._buttonElement.setAttribute('disabled', true);

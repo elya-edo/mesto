@@ -71,8 +71,10 @@ function renderCard(Card) {
 
 /* Основной код */
 
-new FormValidator(classNames, formEdit).enableValidation();
-new FormValidator(classNames, formAdd).enableValidation();
+const validatorFormformAdd = new FormValidator(classNames, formAdd);
+validatorFormformAdd.enableValidation();
+const validatorFormEdit = new FormValidator(classNames, formEdit);
+validatorFormEdit.enableValidation();
 
 // наполняю страницу элементами из начального массива
 initialCards.forEach(function (item) {
@@ -108,6 +110,7 @@ formEdit.addEventListener("submit", function (evt) {
 buttonAddProfile.addEventListener("click", function () {
   openPopup(popupAdd);
   formAdd.reset();
+  validatorFormformAdd.toggleButtonState();
 });
 formAdd.addEventListener("submit", function (evt) {
   evt.preventDefault();
