@@ -1,18 +1,14 @@
-import { openPopup } from './methodsPopup.js';
-const popupTypeImage = document.querySelector(".popup_type_image");
-const popupPictureTitle = document.querySelector(".popup__picture-title");
-const popupPicture = document.querySelector(".popup__picture");
-
 export class Card {
-  constructor(initialCards, templateSelector) {
+  constructor(initialCards, templateSelector, handleCardClick) {
     this._name = initialCards.name;
     this._link = initialCards.link;
-    this._templateSelector = templateSelector; // записали селектор в приватное поле
+    this._templateSelector = templateSelector;
+    this._handleCardClick = handleCardClick.bind(this);
   }
 
   // метод возвращает разметку новой карточки, перед размещением на страницу.
   _getTemplate() {
-    const cloneElement = document        // в примере cardElement
+    const cloneElement = document
     .querySelector(this._templateSelector) // вместо .querySelector("#element-item-template")
     .content
     .querySelector(".elements__element")
@@ -35,8 +31,7 @@ export class Card {
     this._cardImage.src = this._link;
     this._cardImage.alt = `${this._name}`;
 
-    // Вернём элемент наружу
-    return this._element;
+    return this._element;  // Вернём элемент наружу
   }
 
   // добавляю слушатели событий
@@ -50,7 +45,7 @@ export class Card {
     });
 
     this._cardImage.addEventListener('click', () => {
-      this._openPopupImage();
+      this._handleCardClick(this._name, this._link, `${this._name}`);
     });
   }
 
@@ -62,14 +57,5 @@ export class Card {
   // удаление карточки
   _deleteElement() {
     this._deliteButton.closest(".elements__element").remove(); // метод closest возвращает ближайший родительский элемент с переданным селектором
-    // remove удаляет
-  }
-
-  //открытие попапа картинки
-  _openPopupImage() {
-    openPopup(popupTypeImage);
-    popupPictureTitle.textContent = this._name; // заполняю данными из карточки
-    popupPicture.src = this._link; // заполняю данными из карточки
-    popupPicture.alt = `${this._name}`;
   }
 }

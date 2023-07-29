@@ -1,0 +1,23 @@
+{
+  "name": "mesto",
+  "version": "1.0.0",
+  "description": "------------------------------- Cайт с адаптивным дизайном на различных разрешениях по макету из Figma. Функционал: изменение данных профиля через попап, добавление новых карточек, удаление карточек, карточке можно поставить/снять лайк, открытие попапа с картинкой. Реализована валидация полей ввода через js. Реализовано плавное открытие и закрытие попапов.",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "dev": "webpack serve"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-loader": "^9.1.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "html-webpack-plugin": "^5.5.3",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  },
+  "dependencies": {
+    "core-js": "^3.31.1"
+  }
+}
