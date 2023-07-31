@@ -1,16 +1,16 @@
 import { Popup } from './Popup.js';
-const popupPictureTitle = document.querySelector(".popup__picture-title");
-const popupPicture = document.querySelector(".popup__picture");
 
 export class PopupWithImage extends Popup {
   constructor(selectorPopup) { // селектор попапа
     super(selectorPopup);
+    this._popupPictureTitle = this._popup.querySelector(".popup__picture-title");
+    this._popupPicture = this._popup.querySelector(".popup__picture");
   }
 
-  open(Name, Link, Alt) {
+  open(name, link, alt) {
     super.open();
-    popupPictureTitle.textContent = Name; // заполняю данными из карточки
-    popupPicture.src = Link;
-    popupPicture.alt = Alt;
+    this._popupPictureTitle.textContent = name; // заполняю данными из карточки
+    this._popupPicture.src = link;
+    this._popupPicture.alt = alt;
   }
 }

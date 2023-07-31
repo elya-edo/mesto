@@ -56,6 +56,7 @@ export class Card {
 
   // удаление карточки
   _deleteElement() {
-    this._deliteButton.closest(".elements__element").remove(); // метод closest возвращает ближайший родительский элемент с переданным селектором
+    this._element.remove();
+    this._element = null;
   }
 }

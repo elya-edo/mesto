@@ -1,4 +1,4 @@
-import './index.css'; // добавьте импорт главного файла стилей 
+import './index.css'; // добавьте импорт главного файла стилей
 import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
 import { Section } from '../components/Section.js';
@@ -13,6 +13,9 @@ const buttonAddProfile = document.querySelector(".profile__add-button"); // кн
 //любую форму можно сразу получить из document.forms по уникальному атрибуту name, который указываются в тегах form
 const formEdit = document.forms["edit-form"]; // форма редактирования
 const formAdd = document.forms["add-form"]; // форма добавления
+
+const inputNameProfile = document.querySelector("#input-nameProfile"); // поле ввода имени профиля
+const inputDescriptionProfile = document.querySelector("#input-descriptionProfile"); //поле ввода описания профиля
 
 const initialCards = [
   {
@@ -50,6 +53,15 @@ const classNames = {
   errorId: '-error'
 }
 
+/* Объявление функций */
+function createCard(CardItem) {
+  const card = new Card(CardItem, "#element-item-template", function(name, link, alt) {
+    PopupWithImageClass.open(name, link, alt);
+    }
+  ); // Созд экземпляр карточки арг (объект, селектор, ф-я открытия попапа картинки)
+  return card.generateCard();  // Создаём карточку и возвращаем наружу
+}
+
 /* Основной код */
 
 const validatorFormformAdd = new FormValidator(classNames, formAdd);
@@ -57,8 +69,8 @@ validatorFormformAdd.enableValidation();
 const validatorFormEdit = new FormValidator(classNames, formEdit);
 validatorFormEdit.enableValidation();
 
-const PopupClassEdit = new Popup('.popup_type_edit');
-PopupClassEdit.setEventListeners();
+const popupClassEdit = new Popup('.popup_type_edit');
+popupClassEdit.setEventListeners();
 const PopupClassAdd = new Popup('.popup_type_add');
 PopupClassAdd.setEventListeners();
 const PopupClassImage = new Popup('.popup_type_image');
@@ -68,31 +80,29 @@ const PopupWithImageClass = new PopupWithImage('.popup_type_image');
 
 const UserInfoClass = new UserInfo({ selectorName: '.profile__name', selectorDescription: '.profile__description'});
 
-
-// наполняю страницу элементами из начального массива
 const cardList = new Section({
   items: initialCards,
   renderer: (CardItem) => {
-    const card = new Card(CardItem, "#element-item-template", function(Name, Link, Alt) {
-        PopupWithImageClass.open(Name, Link, Alt);
-      }
-    ); // Созд экземпляр карточки арг (объект, селектор, ф-я открытия попапа картинки)
-    const CardElement = card.generateCard();  // Создаём карточку и возвращаем наружу
-
-    cardList.addItem(CardElement); // добавляю в контейнер
+    const newCard = createCard(CardItem); // готовая карточка
+    cardList.addItem(newCard); // добавляю в контейнер
     },
   },
   '.elements'
 );
+
+
+// наполняю страницу элементами из начального массива
 cardList.renderItems();
 
 
 //для попапа редактирования профиля
 buttonEditProfile.addEventListener("click", function () {
-  PopupClassEdit.open();
-  UserInfoClass.getUserInfo(); // возвращает объект с данными пользователя чтобы подставить в форму при открытии
+  popupClassEdit.open();
+  const userInfo = UserInfoClass.getUserInfo(); // возвращает объект с данными пользователя чтобы подставить в форму при открытии
+  inputNameProfile.value = userInfo.name.textContent; // заполняю форму при открытии данными из профиля
+  inputDescriptionProfile.value = userInfo.description.textContent; //заполняю форму при открытии данными из профиля
 });
-const PopupWithFormEditClass = new PopupWithForm({ selectorPopup: '.popup_type_edit', SubmitFunc: (input) => {
+const PopupWithFormEditClass = new PopupWithForm({ selectorPopup: '.popup_type_edit', submitFunc: (input) => {
   UserInfoClass.setUserInfo(input['name-profile'], input['description-profile']); // принимает новые данные пользователя и добавляет их на страницу.
 }});
 PopupWithFormEditClass.setEventListeners();
@@ -103,25 +113,11 @@ buttonAddProfile.addEventListener("click", function () {
   PopupClassAdd.open();
   validatorFormformAdd.toggleButtonState();
 });
-const PopupWithFormAddClass = new PopupWithForm({ selectorPopup: '.popup_type_add', SubmitFunc: (input) => {
+const PopupWithFormAddClass = new PopupWithForm({ selectorPopup: '.popup_type_add', submitFunc: (input) => {
   const newCards = {};
   newCards.name = input['name-place'];
   newCards.link = input['link-picture'];
-
-  const newCardElement = new Section({
-    items: [newCards],
-    renderer: (CardItem) => {
-      const card = new Card(CardItem, "#element-item-template", function(Name, Link, Alt) {
-        PopupWithImageClass.open(Name, Link, Alt);
-        }
-      ); // // Созд экземпляр карточки арг (объект, селектор, ф-я открытия попапа картинки)
-      const CardElement = card.generateCard();  // Создаём карточку и возвращаем наружу
-
-      newCardElement.addItem(CardElement); // добавляю в контейнер
-      },
-    },
-    '.elements'
-  );
-  newCardElement.renderItems();
+  initialCards.push(newCards); // добавляю в массив объектов initialCards новую карточку newCards
+  cardList.renderItems(); // Метод renderItems() класса Section отвечает за отрисовку всех элементов.
 }});
 PopupWithFormAddClass.setEventListeners();

@@ -1,17 +1,17 @@
 import { Popup } from './Popup.js';
-const listInputs = Array.from(document.querySelectorAll(".popup__input")); // все формы
 
 export class PopupWithForm extends Popup {
-  constructor({ selectorPopup, SubmitFunc }) { // (селектор попапа, колбэк сабмита формы)
+  constructor({ selectorPopup, submitFunc }) { // (селектор попапа, колбэк сабмита формы)
     super(selectorPopup);
-    this._SubmitFunc = SubmitFunc;
+    this._submitFunc = submitFunc;
     this._form = this._popup.querySelector('.popup__form');
+    this._listInputs = this._form.querySelectorAll(".popup__input"); // все поля
   }
 
   // метод собирает данные всех полей формы.
   _getInputValues() {
     this._formInputs = [];
-    listInputs.forEach((input) => {
+    this._listInputs.forEach((input) => {
       this._formInputs[input.name] = input.value;
     });
     return this._formInputs;
@@ -22,7 +22,7 @@ export class PopupWithForm extends Popup {
     super.setEventListeners();
     this._popup.addEventListener("submit", (evt) => {
       evt.preventDefault();
-      this._SubmitFunc(this._getInputValues());
+      this._submitFunc(this._getInputValues());
       this.close();
     });
   }
