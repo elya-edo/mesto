@@ -7,8 +7,8 @@ export class UserInfo {
   // метод  возвращает объект с данными пользователя. Пригодится чтобы подставить в форму при открытии.
   getUserInfo() {
     const userInfo = {};
-    userInfo.name = this._name;
-    userInfo.description = this._description;
+    userInfo.name = this._name.textContent;
+    userInfo.description = this._description.textContent;
     return userInfo;
   }
 
