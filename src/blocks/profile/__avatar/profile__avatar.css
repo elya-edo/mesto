@@ -4,3 +4,9 @@
   border-radius: 50%;
   object-fit: cover;
 }
+
+.profile__avatar:hover {
+  opacity: 0.2;
+  transition: opacity 0.2s ease-out;
+  cursor: pointer;
+}

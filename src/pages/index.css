@@ -42,3 +42,50 @@
 @import url("../blocks/popup/__picture/popup__picture.css");
 @import url("../blocks/popup/__picture-title/popup__picture-title.css");
 @import url("../blocks/popup/__errorMessage/popup__errorMessage.css");
+
+
+.elements__like-quantity {
+  color: #000;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 400;
+  margin: 0;
+}
+
+/*.popup_type_warning {
+  visibility: visible;
+  opacity: 1;
+}*/
+
+/*.popup_type_update-avatar {
+  visibility: visible;
+  opacity: 1;
+}*/
+
+.popup__container_warning {
+  width: 430px;
+  display: flex;
+  flex-direction: column;
+  padding: 34px 0 37px;
+  box-sizing: border-box;
+  width: 430px;
+}
+
+.popup__title_warning {
+  margin-bottom: 13px;
+}
+
+.profile__edit-avatar {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+
+.profile__edit-avatar:hover {
+  background: transparent url("../images/edit-button.svg") center
+    no-repeat;
+  background-size: 26px 26px;
+}
