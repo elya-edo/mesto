@@ -14,6 +14,7 @@
 @import url("../blocks/profile/__name/profile__name.css");
 @import url("../blocks/profile/__description/profile__description.css");
 @import url("../blocks/profile/__edit-button/profile__edit-button.css");
+@import url("../blocks/profile/__edit-avatar/profile__edit-avatar.css");
 
 @import url("../blocks/elements/elements.css");
 @import url("../blocks/elements/__element/elements__element.css");
@@ -23,6 +24,7 @@
 @import url("../blocks/elements/__title/elements__title.css");
 @import url("../blocks/elements/__like-button/elements__like-button.css");
 @import url("../blocks/elements/__like-button/_active/elements__like-button_active.css");
+@import url("../blocks/elements/__like-quantity/elements__like-quantity.css");
 
 @import url("../blocks/footer/footer.css");
 @import url("../blocks/footer/__text/footer__text.css");
@@ -30,8 +32,11 @@
 @import url("../blocks/popup/popup.css");
 @import url("../blocks/popup/_opened/popup_opened.css");
 @import url("../blocks/popup/__container/popup__container.css");
+@import url("../blocks/popup/__container/_image/popup__container_image.css");
+@import url("../blocks/popup/__container/_warning/popup__container_warning.css");
 @import url("../blocks/popup/__form/popup__form.css");
 @import url("../blocks/popup/__title/popup__title.css");
+@import url("../blocks/popup/__title/_warning/popup__title_warning.css");
 @import url("../blocks/popup/__input/popup__input.css");
 @import url("../blocks/popup/__input/_invalid/popup__input_invalid.css");
 @import url("../blocks/popup/__save-button/popup__save-button.css");
@@ -42,50 +47,3 @@
 @import url("../blocks/popup/__picture/popup__picture.css");
 @import url("../blocks/popup/__picture-title/popup__picture-title.css");
 @import url("../blocks/popup/__errorMessage/popup__errorMessage.css");
-
-
-.elements__like-quantity {
-  color: #000;
-  text-align: center;
-  font-size: 13px;
-  font-weight: 400;
-  margin: 0;
-}
-
-/*.popup_type_warning {
-  visibility: visible;
-  opacity: 1;
-}*/
-
-/*.popup_type_update-avatar {
-  visibility: visible;
-  opacity: 1;
-}*/
-
-.popup__container_warning {
-  width: 430px;
-  display: flex;
-  flex-direction: column;
-  padding: 34px 0 37px;
-  box-sizing: border-box;
-  width: 430px;
-}
-
-.popup__title_warning {
-  margin-bottom: 13px;
-}
-
-.profile__edit-avatar {
-  position: absolute;
-  top: 40px;
-  left: 0;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-}
-
-.profile__edit-avatar:hover {
-  background: transparent url("../images/edit-button.svg") center
-    no-repeat;
-  background-size: 26px 26px;
-}

@@ -1,0 +1,8 @@
+.popup__container_warning {
+  width: 430px;
+  display: flex;
+  flex-direction: column;
+  padding: 34px 0 37px;
+  box-sizing: border-box;
+  width: 430px;
+}
