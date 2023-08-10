@@ -11,9 +11,9 @@
 .profile__name{color:#fff;font-size:42px;font-weight:500;line-height:1.14;margin:0 0 -14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media screen and (max-width:768px){.profile__name{font-size:34px;line-height:40px}}@media screen and (max-width:550px){.profile__name{font-size:27px;line-height:33px;text-align:center}}@media screen and (max-width:425px){.profile__name{padding-left:27px}}
 .profile__description{color:#fff;font-size:18px;font-weight:400;grid-column-end:3;grid-column-start:1;line-height:22px;margin:0 0 -5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media screen and (max-width:768px){.profile__description{font-size:16px;line-height:19.5px}}@media screen and (max-width:550px){.profile__description{font-size:14px;line-height:17px}}@media screen and (max-width:425px){.profile__description{text-align:center}}
 .profile__edit-button{align-self:center;background:transparent url(8667ac4a523e8fc42e59.svg) 50% no-repeat;background-size:10px 10px;border:1px solid #fff;box-sizing:border-box;height:24px;margin-top:17px;width:24px}.profile__edit-button:hover{cursor:pointer;opacity:.6;transition:opacity .2s ease-out}@media screen and (max-width:550px){.profile__edit-button{background-size:7.5px 7.5px;height:18px;margin-top:11px;width:18px}}
-.profile__edit-avatar{border-radius:50%;height:122px;left:-1px;position:absolute;top:39px;width:122px}.profile__edit-avatar:hover{background:rgba(0,0,0,.8) url(8667ac4a523e8fc42e59.svg) 50% no-repeat;background-size:27px 27px;cursor:pointer}
+.profile__edit-avatar{border-radius:50%;height:122px;left:-1px;position:absolute;top:39px;width:122px}@media screen and (max-width:425px){.profile__edit-avatar{left:auto;top:41px}}.profile__edit-avatar:hover{background:rgba(0,0,0,.8) url(8667ac4a523e8fc42e59.svg) 50% no-repeat;background-size:27px 27px;cursor:pointer}
 .elements{display:grid;gap:20px 17px;grid-template-columns:repeat(3,1fr);margin-left:auto;margin-right:auto}@media screen and (max-width:934px){.elements{grid-template-columns:repeat(2,1fr);justify-items:center;width:calc(100% - 114px)}}@media screen and (max-width:768px){.elements{gap:20px 10px;width:calc(100% - 48px)}}@media screen and (max-width:630px){.elements{grid-template-columns:repeat(1,1fr)}}@media screen and (max-width:425px){.elements{width:calc(100% - 38px)}}
-.elements__element{background-color:#fff;border-radius:3%;min-height:361px;position:relative;width:282px}
+.elements__element{background-color:#fff;border-radius:3%;display:flex;flex-direction:column;min-height:361px;position:relative;width:282px}
 .elements__delite-button{background:transparent url(cbc09a894bdd4c956365.svg) 50% no-repeat;border:0;cursor:pointer;height:19px;padding:0;position:absolute;right:20px;top:20px;width:18px}.elements__delite-button:hover{opacity:.6}
 .elements__image{border-top-left-radius:3%;border-top-right-radius:3%;height:282px;-o-object-fit:cover;object-fit:cover;width:100%}
 .elements__description{display:flex;justify-content:space-between;margin:19px auto 0;width:240px}
@@ -26,7 +26,7 @@
 .popup{background-color:rgba(0,0,0,.5);bottom:0;display:flex;left:0;opacity:0;position:fixed;right:0;top:0;transition:visibility .4s,opacity .4s linear;visibility:hidden}
 .popup_opened{opacity:1;visibility:visible}
 .popup__container{background-color:#fff;border-radius:10px;box-shadow:0 0 25px rgba(0,0,0,.15);margin:auto;position:relative}
-.popup__container_warning{box-sizing:border-box;display:flex;flex-direction:column;padding:34px 0 37px;width:430px}
+.popup__container_warning{box-sizing:border-box;display:flex;flex-direction:column;padding:34px 0 37px;width:430px}@media screen and (max-width:550px){.popup__container_warning{padding:25px 0;width:282px}}
 .popup__form{box-sizing:border-box;display:flex;flex-direction:column;padding:34px 0 37px;width:430px}@media screen and (max-width:550px){.popup__form{padding:25px 0;width:282px}}
 .popup__title{font-size:24px;font-weight:900;line-height:29px;margin:0 auto 48px;width:358px}@media screen and (max-width:550px){.popup__title{font-size:18px;line-height:22px;margin:0 auto 73px;width:238px}}
 .popup__title_warning{margin-bottom:13px}
