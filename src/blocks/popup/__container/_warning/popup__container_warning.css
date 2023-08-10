@@ -6,3 +6,10 @@
   box-sizing: border-box;
   width: 430px;
 }
+
+@media screen and (max-width: 550px) {
+  .popup__container_warning {
+    width: 282px;
+    padding: 25px 0;
+  }
+}

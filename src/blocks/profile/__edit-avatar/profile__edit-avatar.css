@@ -7,6 +7,13 @@
   border-radius: 50%;
 }
 
+@media screen and (max-width: 425px) {
+  .profile__edit-avatar {
+    top: 41px;
+    left: auto;
+  }
+}
+
 .profile__edit-avatar:hover {
   background: rgba(0, 0, 0, 0.8) url("../../../images/edit-button.svg") center
     no-repeat;

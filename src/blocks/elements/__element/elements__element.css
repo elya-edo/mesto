@@ -4,4 +4,6 @@
   width: 282px;
   min-height: 361px;
   position: relative;
+  display: flex; /* чтобы верстка не ломалась если картинка не загрузится */
+  flex-direction: column;
 }

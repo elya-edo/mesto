@@ -3,6 +3,7 @@ export class Popup {
     this._popup = document.querySelector(selectorPopup);
     this._handleEscClose = this._handleEscClose.bind(this);
     this._buttonСlosePopup = this._popup.querySelector(".popup__close-button");
+    this._buttonSubmit = this._popup.querySelector(".popup__save-button");
   }
 
   // открытие попапа

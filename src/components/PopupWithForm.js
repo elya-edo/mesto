@@ -22,9 +22,14 @@ export class PopupWithForm extends Popup {
     super.setEventListeners();
     this._popup.addEventListener("submit", (evt) => {
       evt.preventDefault();
+      this._buttonSubmit.textContent = 'Сохранение...';
       this._submitFunc(this._getInputValues());
-      this.close();
     });
+  }
+
+  open() {
+    super.open();
+    this._buttonSubmit.textContent = 'Сохранить';
   }
 
   // Перезаписывает родительский метод, так как при закрытии попапа форма должна ещё и сбрасываться.

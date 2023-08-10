@@ -15,12 +15,12 @@
 
     <main class="content">
       <section class="profile">
-        <img class="profile__avatar" src="<%=require('./images/zhak-iv-kusto.jpg')%>" alt="Фото пользователя.">
+        <img class="profile__avatar" src="<%=require('./images/waiting-for-download.jpeg')%>" alt="Фото пользователя.">
         <div class="profile__edit-avatar"></div>
         <div class="profile__info">
-          <h1 class="profile__name">Жак-Ив Кусто</h1>
+          <h1 class="profile__name">Имя...</h1>
           <button class="profile__edit-button" type="button" aria-label="Редактировать профиль"></button>
-          <p class="profile__description">Исследователь океана</p>
+          <p class="profile__description">Описание профиля...</p>
         </div>
         <button class="profile__add-button" type="button" aria-label="Добавить"></button>
       </section>
@@ -49,10 +49,10 @@
 
     <div class="popup popup_type_update-avatar">
       <div class="popup__container">
-        <form class="popup__form" name="edit-form" novalidate>
+        <form class="popup__form" name="update-avatar-form" novalidate>
           <h3 class="popup__title">Обновить аватар</h3>
-          <input class="popup__input" id="input-updateAvatar" type="text" placeholder="Ссылка на изображение" name="update-avatar" minlength="2" maxlength="200" required>
-          <span class="popup__errorMessage input-linkImage-error"></span>
+          <input class="popup__input" id="input-updateAvatar" type="url" placeholder="Ссылка на изображение" name="update-avatar" required>
+          <span class="popup__errorMessage input-updateAvatar-error">Введите адрес сайта</span>
           <button class="popup__save-button" type="submit">Сохранить</button>
         </form>
         <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
@@ -75,7 +75,7 @@
 
     <div class="popup popup_type_image">
       <div class="popup__container popup__container_image">
-        <img class="popup__picture" src="<%=require('./images/karachayevsk.jpg')%>" alt="Изображение места.">
+        <img class="popup__picture" src="<%=require('./images/waiting-for-download.jpeg')%>" alt="Изображение места.">
         <h2 class="popup__picture-title"></h2>
         <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
       </div>
@@ -84,7 +84,7 @@
     <div class="popup popup_type_warning">
       <div class="popup__container popup__container_warning">
           <h3 class="popup__title popup__title_warning">Вы уверены?</h3>
-          <button class="popup__save-button" type="submit">Да</button>
+          <button class="popup__save-button" type="button">Да</button>
         <button class="popup__close-button" type="button" aria-label="Закрыть"></button>
       </div>
     </div>
@@ -92,9 +92,9 @@
     <template id="element-item-template">
       <article class="elements__element">
         <button class="elements__delite-button" type="button" aria-label="Удалить карточку"></button>
-        <img class="elements__image" src="<%=require('./images/karachayevsk.jpg')%>" alt="Изображение места.">
+        <img class="elements__image" src="<%=require('./images/waiting-for-download.jpeg')%>" alt="Изображение места.">
         <div class="elements__description">
-          <h2 class="elements__title">Название</h2>
+          <h2 class="elements__title">Название изображения...</h2>
           <div>
             <button class="elements__like-button" type="button" aria-label="Поставить лайк"></button>
             <p class="elements__like-quantity">0</p>

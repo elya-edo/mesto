@@ -7,10 +7,9 @@ export class PopupWithImage extends Popup {
     this._popupPicture = this._popup.querySelector(".popup__picture");
   }
 
-  open(name, link, alt) {
+  open(name, link) {
     super.open();
     this._popupPictureTitle.textContent = name; // заполняю данными из карточки
     this._popupPicture.src = link;
-    this._popupPicture.alt = alt;
   }
 }
