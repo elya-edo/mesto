@@ -7,18 +7,21 @@ export class PopupWithWarning extends Popup {
     this._buttonYes = this._popup.querySelector(".popup__save-button");
   }
 
-  open() {
+  open(deliteCars) {
     super.open();
-    this._buttonYes.textContent = 'Да';
+    this.deliteCars = deliteCars;
+    this._setEventListeners();
   }
 
-  setEventListeners(deliteCars) {
+  _setEventListeners() {
     super.setEventListeners();
-    this.deliteCars = deliteCars;
     this._buttonYes.addEventListener("click", () => {
       this._buttonYes.textContent = 'Идёт удаление...';
       this.deliteCars();
     });
   }
 
+  initialTextButton() { // начальный текст кнопки
+    this._buttonYes.textContent = 'Да';
+  }
 }

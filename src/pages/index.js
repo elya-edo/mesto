@@ -7,8 +7,6 @@ import { PopupWithForm } from '../components/PopupWithForm.js';
 import { PopupWithWarning } from '../components/PopupWithWarning.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { Api } from '../components/Api.js';
-import { UserAvatar } from '../components/UserAvatar.js';
-
 
 const buttonEditProfile = document.querySelector(".profile__edit-button"); // кнопка редактирования профиля
 const buttonAddProfile = document.querySelector(".profile__add-button"); // кнопка добавления карточек
@@ -34,66 +32,51 @@ const classNames = {
 
 /* Объявление функций */
 
-function createCard(CardItem, CardItemId) {
-  const card = new Card(CardItem, "#element-item-template",
-  function(name, link) {    // ф-я открывающая попап картинки, вызывается при клике на картинку
-    popupWithImageClass.open(name, link);
+function createCard(cardItem, myId) {
+  const card = new Card(cardItem, "#element-item-template",
+    function(name, link) {    // ф-я открывающая попап картинки, вызывается при клике на картинку
+      popupWithImageClass.open(name, link);
     },
     function() {  // ф-я открывающая предупреждение, вызывается при клике на кнопку удаления карточки
-      popupWarning.open();
-      popupWarning.setEventListeners(function() {
-        api.deleteCard(CardItemId) // // удаление карточки с сервера
-            .then((json) => {
-              card.deleteElement();
-              popupWarning.close(); // чтобы сначала удалился а потом закрылся попап
-            })
-            .catch((err) => {
-              console.error(err); // выведем ошибку в консоль
-              popupWarning.close();
-              alert("Не удалось совершить действие"); //уведобляю пользователя что действие не удалось
-            });
-      });
-      }
-  ); // Созд экземпляр карточки арг (объект, селектор, ф-я, ф-я)
-
-  return card.generateCard(function() {   // поставить лайк на сервере
-    api.addLike(CardItemId)
-            .then((json) => {
-              card.likeElement();  // добавляю закрашивание сердечка
-              card.changeQuantityLikes(json.likes.length);  // меняю количество лайков
-            })
-            .catch((err) => {
-              console.error(err);
-              alert("Не удалось совершить действие");
-            });
+      popupWarning.open((function() {
+        api.deleteCard(cardItem._id) // // удаление карточки с сервера
+          .then((json) => {
+            card.deleteElement();
+            popupWarning.close(); // чтобы сначала удалился а потом закрылся попап
+          })
+          .catch((err) => {
+            console.error(err); // выведем ошибку в консоль
+          })
+          .finally(() => {
+            popupWarning.initialTextButton();
+          })
+      }));
     },
-    function() {   // снять лайк на сервере
-      api.deleteLike(CardItemId)
-            .then((json) => {
-              card.likeElement();  // убираю закрашивание сердечка
-              card.changeQuantityLikes(json.likes.length); // меняю количество лайков
-            })
-            .catch((err) => {
-              console.error(err);
-              alert("Не удалось совершить действие");
-            });
-    }
-  );  // Создаём карточку и возвращаем наружу
-}
-
-function createSectionClass(objectCard) {
-  const cardList = new Section({
-    items: objectCard,
-    renderer: (CardItem) => {
-      const newCard = createCard(CardItem, CardItem._id); // готовая карточка
-      cardList.addItem(newCard); // добавляю в контейнер
+    myId,
+    function() {   // поставить лайк на сервере
+      api.addLike(cardItem._id)
+              .then((json) => {
+                card.likeElement();  // добавляю закрашивание сердечка
+                card.changeQuantityLikes(json.likes.length);  // меняю количество лайков
+              })
+              .catch((err) => {
+                console.error(err);
+              });
       },
-    },
-    '.elements'
-  );
-  return cardList;
-}
+    function() {   // снять лайк на сервере
+      api.deleteLike(cardItem._id)
+              .then((json) => {
+                card.likeElement();  // убираю закрашивание сердечка
+                card.changeQuantityLikes(json.likes.length); // меняю количество лайков
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+      }
+  ); // Созд экземпляр карточки арг (объект, селектор, ф-я, ф-я...)
 
+  return card.generateCard();  // Создаём карточку и возвращаем наружу
+}
 
 /* Основной код */
 
@@ -105,18 +88,67 @@ const api = new Api({
   }
 });
 
+/*// Класс Section отвечает за отрисовку элементов на странице
+const cardListSectionClass = new Section({
+  renderer: (cardItem) => {
+    const newCard = createCard(cardItem); // готовая карточка
+    cardListSectionClass.addItem(newCard); // добавляю в контейнер
+  },
+  selectorContainer: '.elements'
+  });*/
+
+// Класс отвечающий за информацию о пользователе
+const userInfoClass = new UserInfo({ selectorName: '.profile__name', selectorDescription: '.profile__description', selectorAvatar: '.profile__avatar'});
+
+// попап предупреждения об удалении карточки
+const popupWarning = new PopupWithWarning('.popup_type_warning');
+
+
 // Загрузка информации о пользователе и карточек с сервера
 const firstPromise = api.getUserInfo() // Загрузка информации о пользователе с сервера
 const secondPromise = api.getInitialCards() // Загрузка карточек с сервера
 Promise.all([firstPromise, secondPromise]) // объединяю в Promise.all
   .then((results) => {
+    // results[0]._id    //  _id пользователя
     userInfoClass.setUserInfo(results[0].name, results[0].about); // принимает новые данные пользователя и добавляет их на страницу.
-    UserAvatarClass.setAvatar(results[0].avatar); // добавляю аватар пользователя
-    createSectionClass(results[1]).renderItems(); // добавляю карточки
-  })
+    userInfoClass.setAvatar(results[0].avatar); // добавляю аватар пользователя
+
+    // Класс Section отвечает за отрисовку элементов на странице
+    const cardListSectionClass = new Section({
+      renderer: (cardItem) => {
+        const newCard = createCard(cardItem, results[0]._id); // готовая карточка
+        cardListSectionClass.addItem(newCard); // добавляю в контейнер
+      },
+      selectorContainer: '.elements'
+    });
+
+    cardListSectionClass.renderItems(results[1]); // добавляю карточки
+
+
+    //для попапа добавления карточек
+    const popupWithFormAddClass = new PopupWithForm({ selectorPopup: '.popup_type_add', submitFunc: (input) => {
+      api.sendNewCard(input['name-place'], input['link-picture']) // Добавление новой карточки
+        .then((json) => {
+          const newCard = createCard(json, results[0]._id);
+          cardListSectionClass.addItem(newCard);
+          popupWithFormAddClass.close();
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+        .finally(() => {
+          popupWithFormAddClass.initialTextButton();
+        })
+    }});
+    buttonAddProfile.addEventListener("click", function () {
+      popupWithFormAddClass.open();
+      validatorFormformAdd.toggleButtonState();
+    });
+    popupWithFormAddClass.setEventListeners();
+    })
+
   .catch((err) => {
     console.error(err);
-    alert("Не удалось загрузить данные");
   });
 
 
@@ -129,32 +161,24 @@ const validatorFormUpdateAvatar = new FormValidator(classNames, formUpdateAvatar
 validatorFormUpdateAvatar.enableValidation();
 
 
-// Класс отвечающий за аватар пользователя
-const UserAvatarClass = new UserAvatar('.profile__avatar');
-// Класс отвечающий за информацию о пользователе
-const userInfoClass = new UserInfo({ selectorName: '.profile__name', selectorDescription: '.profile__description'});
-
-
 //для попапа открытия картинки
 const popupWithImageClass = new PopupWithImage('.popup_type_image');
 popupWithImageClass.setEventListeners();
-
-// попап предупреждения об удалении карточки
-const popupWarning = new PopupWithWarning('.popup_type_warning');
 
 
 //для попапа редактирования профиля
 const popupWithFormEditClass = new PopupWithForm({ selectorPopup: '.popup_type_edit', submitFunc: (input) => {
   api.sendUserInfo(input['name-profile'], input['description-profile']) // Сохранение отредактированных данных профиля на сервере
   .then((json) => {
-    userInfoClass.setUserInfo(input['name-profile'], input['description-profile']); // принимает новые данные пользователя и добавляет их на страницу.
+    userInfoClass.setUserInfo(json.name, json.about); // принимает новые данные пользователя и добавляет их на страницу.
     popupWithFormEditClass.close();
   })
   .catch((err) => {
     console.error(err);
-    popupWithFormEditClass.close();
-    alert("Не удалось совершить действие");
-  });
+  })
+  .finally(() => {
+    popupWithFormEditClass.initialTextButton();
+  })
 }});
 buttonEditProfile.addEventListener("click", function () {
   popupWithFormEditClass.open();
@@ -165,46 +189,15 @@ buttonEditProfile.addEventListener("click", function () {
 popupWithFormEditClass.setEventListeners();
 
 
-//для попапа добавления карточек
-const popupWithFormAddClass = new PopupWithForm({ selectorPopup: '.popup_type_add', submitFunc: (input) => {
-  const newCards = {
-    name: input['name-place'],
-    link: input['link-picture'],
-    likes: [],
-    owner: {
-      _id: '839e9c3449529c67f8d9516a'
-    }
-  };
-  api.sendNewCard(input['name-place'], input['link-picture']) // Добавление новой карточки
-  .then((json) => {
-    const newCard = createCard(newCards, json._id);
-    createSectionClass(json).addItem(newCard); // добавляю новую карточку на страницу - вызываю ф-ю createSectionClass, а потом метод .addItem()
-    popupWithFormAddClass.close();
-  })
-  .catch((err) => {
-    console.error(err);
-    popupWithFormAddClass.close();
-    alert("Не удалось совершить действие");
-  });
-}});
-buttonAddProfile.addEventListener("click", function () {
-  popupWithFormAddClass.open();
-  validatorFormformAdd.toggleButtonState();
-});
-popupWithFormAddClass.setEventListeners();
-
-
 // для попапа обновления аватара
 const popupWithFormAvatarClass = new PopupWithForm({ selectorPopup: '.popup_type_update-avatar', submitFunc: (input) => {
   api.changeAvatar(input['update-avatar']) // Замена аватара пользователя
   .then((json) => {
-    UserAvatarClass.setAvatar(json.avatar); // добавляю аватар пользователя
+    userInfoClass.setAvatar(json.avatar); // добавляю аватар пользователя
     popupWithFormAvatarClass.close();
   })
   .catch((err) => {
     console.error(err);
-    popupWithFormAvatarClass.close();
-    alert("Не удалось совершить действие");
   });
 }});
 buttonUpdateAvatar.addEventListener("click", function () {

@@ -1,7 +1,8 @@
 export class UserInfo {
-  constructor({ selectorName, selectorDescription }) { //(селектор имени пользователя и информации о себе)
+  constructor({ selectorName, selectorDescription, selectorAvatar }) { //(селектор имени пользователя, информации о себе и аватара)
     this._name = document.querySelector(selectorName);
     this._description = document.querySelector(selectorDescription);
+    this._avatar = document.querySelector(selectorAvatar);
   }
 
   // метод  возвращает объект с данными пользователя. Пригодится чтобы подставить в форму при открытии.
@@ -16,6 +17,23 @@ export class UserInfo {
   setUserInfo(name, description) {
     this._name.textContent = name;
     this._description.textContent = description;
+  }
+
+  // добавляет ватар
+  setAvatar(link) {
+    this._avatar.src = link;
+  }
+
+  // метод получает _id пользователя из index.js
+  getIdUser(id) {
+    this._id = id;
+    console.log(this._id);
+  }
+
+  // метод возвращает _id пользователя в index.js
+  idUser() {
+    console.log(this._id);
+    return this._id;
   }
 }
 

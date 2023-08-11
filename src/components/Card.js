@@ -1,5 +1,5 @@
 export class Card {
-  constructor(initialCards, templateSelector, handleCardClick, handleDeleteCard) {
+  constructor(initialCards, templateSelector, handleCardClick, handleDeleteCard, myId, addLikeApi, deliteLikeApi) {
     this._name = initialCards.name;
     this._link = initialCards.link;
     this._id = initialCards._id;
@@ -8,9 +8,12 @@ export class Card {
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick.bind(this);
     this._handleDeleteCard = handleDeleteCard.bind(this);
+    this._myId = myId;
     this._isLiked = initialCards.likes.some(function(item) { // проверка наличия лайка
-      return item._id === '839e9c3449529c67f8d9516a';
+      return item._id === myId;
     });
+    this._addLikeApi = addLikeApi;
+    this._deliteLikeApi = deliteLikeApi;
   }
 
   // метод возвращает разметку новой карточки, перед размещением на страницу.
@@ -25,7 +28,7 @@ export class Card {
   }
 
   // метод generateCard подготовит карточку к публикации. Он добавит данные в разметку, а в следующих уроках научится управлять поведением карточек. Метод публичный, чтобы возвращать готовые карточки внешним функциям:
-  generateCard(addLikeApi, deliteLikeApi) {
+  generateCard() {
   // Запишем разметку в приватное поле _element. Так у других элементов появится доступ к ней.
     this._element = this._getTemplate();
     this._cardImage = this._element.querySelector(".elements__image");
@@ -33,7 +36,7 @@ export class Card {
     this._deliteButton = this._element.querySelector('.elements__delite-button');
     this._quantityLikes = this._element.querySelector(".elements__like-quantity");
 
-    this._setEventListeners(addLikeApi, deliteLikeApi); // добавим обработчики
+    this._setEventListeners(); // добавим обработчики
 
     // Добавим данные. В данном случае беру ссылку на картинку из ключа link и назв-е из name.
     this._element.querySelector(".elements__title").textContent = this._name;
@@ -42,7 +45,7 @@ export class Card {
     if (this._isLiked) {
       this.likeElement();
     }
-    if (this._idUser !== '839e9c3449529c67f8d9516a') { // чтобы иконка удаления была только у моих карточек
+    if (this._idUser !== this._myId) { // чтобы иконка удаления была только у моих карточек
       this._deliteButton.remove();
     }
 
@@ -50,14 +53,14 @@ export class Card {
   }
 
   // добавляю слушатели событий
-  _setEventListeners(addLikeApi, deliteLikeApi) {
+  _setEventListeners() {
     this._likeButton.addEventListener('click', () => {
 
       if (this._likeButton.classList.contains('elements__like-button_active')) {
-        deliteLikeApi(this._id);
+        this._deliteLikeApi(this._id);
       }
       else {
-        addLikeApi(this._id);
+        this._addLikeApi(this._id);
       }
       //this.likeElement();
 
@@ -80,7 +83,7 @@ export class Card {
   // удаление карточки
   deleteElement() {
     this._element.remove();
-    //this._element = null;
+    //this._element = null; //если расскомментировать возникает ошибка при удалении только созданных карточек после удаления второй
   }
 
   // метод регулирует счетчик лайков

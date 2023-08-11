@@ -6,6 +6,7 @@ export class PopupWithForm extends Popup {
     this._submitFunc = submitFunc;
     this._form = this._popup.querySelector('.popup__form');
     this._listInputs = this._form.querySelectorAll(".popup__input"); // все поля
+    this._buttonSubmit = this._popup.querySelector(".popup__save-button");
   }
 
   // метод собирает данные всех полей формы.
@@ -27,14 +28,14 @@ export class PopupWithForm extends Popup {
     });
   }
 
-  open() {
-    super.open();
-    this._buttonSubmit.textContent = 'Сохранить';
-  }
-
   // Перезаписывает родительский метод, так как при закрытии попапа форма должна ещё и сбрасываться.
   close() {
     super.close();
     this._form.reset(); // очищаю форму
   }
+
+  initialTextButton() { // начальный текст кнопки
+    this._buttonSubmit.textContent = 'Сохранить';
+  }
+
 }

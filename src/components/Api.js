@@ -10,12 +10,7 @@ export class Api {
         authorization: this.token,
       }
     })
-      .then(res => {
-        if (!res.ok) {
-          return Promise.reject(`Ошибка: ${res.status}`);  // если ошибка, отклоняем промис
-        }
-        return res.json();
-      });
+      .then((res) =>  this._getResponseData(res));
   }
 
 
@@ -25,12 +20,7 @@ export class Api {
         authorization: this.token,
       }
     })
-      .then(res => {
-        if (!res.ok) {
-          return Promise.reject(`Ошибка: ${res.status}`);
-        }
-        return res.json();
-      });
+      .then((res) =>  this._getResponseData(res));
   }
 
   sendUserInfo(name, description) { // Сохранение отредактированных данных профиля на сервере
@@ -45,12 +35,7 @@ export class Api {
         about: description
       }),
     })
-    .then(res => {
-      if (!res.ok) {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
-      return res.json();
-    });
+      .then((res) =>  this._getResponseData(res));
   }
 
 
@@ -66,12 +51,7 @@ export class Api {
         link: linkImage
       }),
     })
-    .then(res => {
-      if (!res.ok) {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
-      return res.json();
-    });
+      .then((res) =>  this._getResponseData(res));
   }
 
   changeAvatar(linkAvatar) {    // Замена аватара пользователя
@@ -85,12 +65,7 @@ export class Api {
         avatar: linkAvatar
       }),
     })
-    .then(res => {
-      if (!res.ok) {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
-      return res.json();
-    });
+      .then((res) =>  this._getResponseData(res));
   }
 
   deleteCard(cardId) {  // удаление карточки
@@ -100,12 +75,7 @@ export class Api {
         authorization: this.token,
       },
     })
-      .then(res => {
-        if (!res.ok) {
-          return Promise.reject(`Ошибка: ${res.status}`);
-        }
-        return res.json();
-      });
+      .then((res) =>  this._getResponseData(res));
   }
 
   addLike(cardId) {  // поставить лайк
@@ -115,12 +85,7 @@ export class Api {
         authorization: this.token,
       },
     })
-      .then(res => {
-        if (!res.ok) {
-          return Promise.reject(`Ошибка: ${res.status}`);
-        }
-        return res.json();
-      });
+      .then((res) =>  this._getResponseData(res));
   }
 
   deleteLike(cardId) {  // снятие лайка
@@ -130,12 +95,14 @@ export class Api {
         authorization: this.token,
       },
     })
-      .then(res => {
-        if (!res.ok) {
-          return Promise.reject(`Ошибка: ${res.status}`);
-        }
-        return res.json();
-      });
+      .then((res) =>  this._getResponseData(res));
+  }
+
+  _getResponseData(res) { // Проверка ответа сервера и преобразование из json
+    if (!res.ok) {
+      return Promise.reject(`Ошибка: ${res.status}`);
+    }
+    return res.json();
   }
 }
 
