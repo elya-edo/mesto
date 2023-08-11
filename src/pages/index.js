@@ -8,6 +8,8 @@ import { PopupWithWarning } from '../components/PopupWithWarning.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { Api } from '../components/Api.js';
 
+let myId; // id пользователя получаю с сервера и присваиваю значение в then, потом присвоенное значение отправляется в класс Card кототорый в функции createCard
+
 const buttonEditProfile = document.querySelector(".profile__edit-button"); // кнопка редактирования профиля
 const buttonAddProfile = document.querySelector(".profile__add-button"); // кнопка добавления карточек
 const buttonUpdateAvatar = document.querySelector(".profile__edit-avatar"); // кнопка редактирования аватара
@@ -32,7 +34,7 @@ const classNames = {
 
 /* Объявление функций */
 
-function createCard(cardItem, myId) {
+function createCard(cardItem) {
   const card = new Card(cardItem, "#element-item-template",
     function(name, link) {    // ф-я открывающая попап картинки, вызывается при клике на картинку
       popupWithImageClass.open(name, link);
@@ -80,6 +82,7 @@ function createCard(cardItem, myId) {
 
 /* Основной код */
 
+// Класс API
 const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-72',
   headers: {
@@ -88,20 +91,21 @@ const api = new Api({
   }
 });
 
-/*// Класс Section отвечает за отрисовку элементов на странице
+// Класс отвечающий за информацию о пользователе
+const userInfoClass = new UserInfo({ selectorName: '.profile__name', selectorDescription: '.profile__description', selectorAvatar: '.profile__avatar'});
+
+// попап предупреждения об удалении карточки
+const popupWarning = new PopupWithWarning('.popup_type_warning');
+popupWarning.setEventListeners();
+
+// класс отвечает за отрисовку элементов на странице.
 const cardListSectionClass = new Section({
   renderer: (cardItem) => {
     const newCard = createCard(cardItem); // готовая карточка
     cardListSectionClass.addItem(newCard); // добавляю в контейнер
   },
   selectorContainer: '.elements'
-  });*/
-
-// Класс отвечающий за информацию о пользователе
-const userInfoClass = new UserInfo({ selectorName: '.profile__name', selectorDescription: '.profile__description', selectorAvatar: '.profile__avatar'});
-
-// попап предупреждения об удалении карточки
-const popupWarning = new PopupWithWarning('.popup_type_warning');
+});
 
 
 // Загрузка информации о пользователе и карточек с сервера
@@ -110,47 +114,15 @@ const secondPromise = api.getInitialCards() // Загрузка карточек
 Promise.all([firstPromise, secondPromise]) // объединяю в Promise.all
   .then((results) => {
     // results[0]._id    //  _id пользователя
+    myId = results[0]._id;
     userInfoClass.setUserInfo(results[0].name, results[0].about); // принимает новые данные пользователя и добавляет их на страницу.
     userInfoClass.setAvatar(results[0].avatar); // добавляю аватар пользователя
-
-    // Класс Section отвечает за отрисовку элементов на странице
-    const cardListSectionClass = new Section({
-      renderer: (cardItem) => {
-        const newCard = createCard(cardItem, results[0]._id); // готовая карточка
-        cardListSectionClass.addItem(newCard); // добавляю в контейнер
-      },
-      selectorContainer: '.elements'
-    });
-
+    //cardListSectionClass(results[0]._id);
     cardListSectionClass.renderItems(results[1]); // добавляю карточки
-
-
-    //для попапа добавления карточек
-    const popupWithFormAddClass = new PopupWithForm({ selectorPopup: '.popup_type_add', submitFunc: (input) => {
-      api.sendNewCard(input['name-place'], input['link-picture']) // Добавление новой карточки
-        .then((json) => {
-          const newCard = createCard(json, results[0]._id);
-          cardListSectionClass.addItem(newCard);
-          popupWithFormAddClass.close();
-        })
-        .catch((err) => {
-          console.error(err);
-        })
-        .finally(() => {
-          popupWithFormAddClass.initialTextButton();
-        })
-    }});
-    buttonAddProfile.addEventListener("click", function () {
-      popupWithFormAddClass.open();
-      validatorFormformAdd.toggleButtonState();
-    });
-    popupWithFormAddClass.setEventListeners();
-    })
-
+  })
   .catch((err) => {
     console.error(err);
   });
-
 
 // Валидация
 const validatorFormformAdd = new FormValidator(classNames, formAdd);
@@ -182,6 +154,7 @@ const popupWithFormEditClass = new PopupWithForm({ selectorPopup: '.popup_type_e
 }});
 buttonEditProfile.addEventListener("click", function () {
   popupWithFormEditClass.open();
+  validatorFormEdit.toggleButtonState();
   const userInfo = userInfoClass.getUserInfo(); // возвращает объект с данными пользователя чтобы подставить в форму при открытии
   inputNameProfile.value = userInfo.name; // заполняю форму при открытии данными из профиля
   inputDescriptionProfile.value = userInfo.description; //заполняю форму при открытии данными из профиля
@@ -200,7 +173,30 @@ const popupWithFormAvatarClass = new PopupWithForm({ selectorPopup: '.popup_type
     console.error(err);
   });
 }});
+popupWithFormAvatarClass.setEventListeners(); // вызываю слушатели
 buttonUpdateAvatar.addEventListener("click", function () {
   popupWithFormAvatarClass.open();
-  popupWithFormAvatarClass.setEventListeners()
+  validatorFormUpdateAvatar.toggleButtonState();
 });
+
+
+//для попапа добавления карточек
+const popupWithFormAddClass = new PopupWithForm({ selectorPopup: '.popup_type_add', submitFunc: (input) => {
+  api.sendNewCard(input['name-place'], input['link-picture']) // Добавление новой карточки
+    .then((json) => {
+      const newCard = createCard(json,  json.owner._id);
+      cardListSectionClass.addItem(newCard);
+      popupWithFormAddClass.close();
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+    .finally(() => {
+      popupWithFormAddClass.initialTextButton();
+    })
+}});
+buttonAddProfile.addEventListener("click", function () {
+  popupWithFormAddClass.open();
+  validatorFormformAdd.toggleButtonState();
+});
+popupWithFormAddClass.setEventListeners();

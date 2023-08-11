@@ -7,6 +7,7 @@ export class PopupWithForm extends Popup {
     this._form = this._popup.querySelector('.popup__form');
     this._listInputs = this._form.querySelectorAll(".popup__input"); // все поля
     this._buttonSubmit = this._popup.querySelector(".popup__save-button");
+    this._initialTextButton = this._buttonSubmit.textContent;
   }
 
   // метод собирает данные всех полей формы.
@@ -35,7 +36,7 @@ export class PopupWithForm extends Popup {
   }
 
   initialTextButton() { // начальный текст кнопки
-    this._buttonSubmit.textContent = 'Сохранить';
+    this._buttonSubmit.textContent = this._initialTextButton;
   }
 
 }

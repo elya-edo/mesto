@@ -9,7 +9,7 @@ export class FormValidator {
 
   // метод запустит валидацию:
   enableValidation() {
-    this.toggleButtonState(); // вызовем ф-ю перекл кнопки, чтобы не ждать ввода данных
+    //this.toggleButtonState(); // вызовем ф-ю перекл кнопки, чтобы не ждать ввода данных
     this._setEventListeners();
   };
 

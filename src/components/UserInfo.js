@@ -23,18 +23,6 @@ export class UserInfo {
   setAvatar(link) {
     this._avatar.src = link;
   }
-
-  // метод получает _id пользователя из index.js
-  getIdUser(id) {
-    this._id = id;
-    console.log(this._id);
-  }
-
-  // метод возвращает _id пользователя в index.js
-  idUser() {
-    console.log(this._id);
-    return this._id;
-  }
 }
 
 
