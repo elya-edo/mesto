@@ -8,6 +8,7 @@ export class PopupWithForm extends Popup {
     this._listInputs = this._form.querySelectorAll(".popup__input"); // все поля
     this._buttonSubmit = this._popup.querySelector(".popup__save-button");
     this._initialTextButton = this._buttonSubmit.textContent;
+    this._errorInputs = this._form.querySelectorAll(".popup__errorMessage"); // элемент сообщения ошибки неалидного поля
   }
 
   // метод собирает данные всех полей формы.
@@ -33,6 +34,19 @@ export class PopupWithForm extends Popup {
   close() {
     super.close();
     this._form.reset(); // очищаю форму
+    // убираю стили невалидных полей, если они есть, чтобы при последующем открытии пустой формы их не было
+    this._listInputs.forEach((input) => {
+      if (input.classList.contains('popup__input_invalid')) {
+        input.classList.remove('popup__input_invalid');
+      }
+    });
+    // убираю сообщения ошибки невалидных полей, если они есть, чтобы при последующем открытии их не было
+    this._errorInputs.forEach((errorMessage) => {
+      if (errorMessage.classList.contains('popup__errorMessage_active')) {
+      errorMessage.classList.remove('popup__errorMessage_active');
+      errorMessage.textContent = '';
+      }
+     });
   }
 
   initialTextButton() { // начальный текст кнопки
